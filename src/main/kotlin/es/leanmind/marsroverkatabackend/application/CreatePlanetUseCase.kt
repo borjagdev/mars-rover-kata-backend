@@ -1,10 +1,13 @@
 package es.leanmind.marsroverkatabackend.application
 
-import es.leanmind.marsroverkatabackend.config.UseCase
+import es.leanmind.marsroverkatabackend.config.Injectable
+import es.leanmind.marsroverkatabackend.domain.Planet
 
-@UseCase
-class CreatePlanetUseCase {
-    fun execute(): String {
-        return ""
+@Injectable
+class CreatePlanetUseCase(
+        private val planetRepository : PlanetRepository
+) {
+    fun execute(): Planet {
+        return planetRepository.create()
     }
 }

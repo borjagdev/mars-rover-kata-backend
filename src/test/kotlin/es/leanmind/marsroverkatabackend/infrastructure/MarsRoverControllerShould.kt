@@ -18,10 +18,10 @@ class MarsRoverControllerShould {
         val expectedResponse = """
             {
                 "size": {
-                  "width": 10,
-                  "length": 10
+                  "height": 10,
+                  "width": 10
                 },
-                "marsRover": [
+                "marsRovers": [
                   {
                     "position": {
                       "latitude": 0,
@@ -30,7 +30,7 @@ class MarsRoverControllerShould {
                     "direction": "N"
                   }
                 ],
-                "obstacle": [
+                "obstacles": [
                   {
                     "position": {
                       "latitude": 4,

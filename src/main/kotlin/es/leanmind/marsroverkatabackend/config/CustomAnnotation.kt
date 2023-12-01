@@ -5,4 +5,4 @@ import java.lang.annotation.Inherited
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.TYPE, AnnotationTarget.CLASS)
 @Inherited
-annotation class UseCase
+annotation class Injectable
