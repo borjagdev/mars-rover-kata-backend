@@ -62,4 +62,27 @@ class MarsRoverControllerShould {
         ).andExpect(MockMvcResultMatchers.status().isOk)
         .andExpect(MockMvcResultMatchers.content().json(expectedPlanetResponse))
     }
+
+    @Test
+    fun `move the specified Mars Rover according to received command`() {
+        val requestBody = "{\"marsRoverId:\" 1, \"command:\" \"RFF\"}"
+        val expectedResponse = """
+        {
+            "marsRover": {
+                "position": {
+                    "latitude": 0,
+                    "longitude": 2
+                },
+                "direction": "E"
+            }
+        }
+        """
+
+        mvc.perform(MockMvcRequestBuilders.post("/mars-rover")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+        ).andExpect(MockMvcResultMatchers.status().isOk)
+        .andExpect(MockMvcResultMatchers.content().json(expectedResponse))
+    }
 }
