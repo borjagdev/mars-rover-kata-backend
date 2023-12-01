@@ -6,11 +6,17 @@ import es.leanmind.marsroverkatabackend.domain.*
 
 @Injectable
 class InMemoryPlanetRepository : PlanetRepository {
+    private val defaultPlanet = Planet(
+            Size(10, 10),
+            listOf(MarsRover(Position(0, 0), "N")),
+            listOf(Obstacle(Position(4, 4)), Obstacle(Position(2, 2)))
+    )
+
     override fun create(): Planet {
-        return Planet(
-                Size(10, 10),
-                listOf(MarsRover(Position(0, 0), "N")),
-                listOf(Obstacle(Position(4, 4)), Obstacle(Position(2, 2)))
-        )
+        return defaultPlanet
+    }
+
+    override fun getCurrent(): Planet {
+        return defaultPlanet
     }
 }

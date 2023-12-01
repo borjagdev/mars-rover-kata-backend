@@ -4,4 +4,5 @@ import es.leanmind.marsroverkatabackend.domain.Planet
 
 interface PlanetRepository {
     fun create(): Planet
+    fun getCurrent(): Planet
 }

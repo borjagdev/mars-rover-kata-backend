@@ -13,9 +13,7 @@ class MarsRoverControllerShould {
     @Autowired
     lateinit var mvc: MockMvc
 
-    @Test
-    fun `create a planet`() {
-        val expectedResponse = """
+    private val expectedPlanetResponse = """
             {
                 "size": {
                   "height": 10,
@@ -47,10 +45,21 @@ class MarsRoverControllerShould {
             }
         """
 
+    @Test
+    fun `get the current state of a planet`() {
+        mvc.perform(MockMvcRequestBuilders.get("/planet")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        ).andExpect(MockMvcResultMatchers.status().isOk)
+        .andExpect(MockMvcResultMatchers.content().json(expectedPlanetResponse))
+    }
+
+    @Test
+    fun `create a planet`() {
         mvc.perform(MockMvcRequestBuilders.post("/planet")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
         ).andExpect(MockMvcResultMatchers.status().isOk)
-        .andExpect(MockMvcResultMatchers.content().json(expectedResponse))
+        .andExpect(MockMvcResultMatchers.content().json(expectedPlanetResponse))
     }
 }
