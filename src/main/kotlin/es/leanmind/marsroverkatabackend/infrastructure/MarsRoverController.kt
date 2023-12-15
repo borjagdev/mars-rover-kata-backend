@@ -19,7 +19,7 @@ class MarsRoverController(
     @GetMapping("/planet")
     fun getCurrentPlanet() : ResponseEntity<Any> {
         val planet = getCurrentPlanetUseCase.execute()
-        return ResponseEntity.ok(planet)
+        return ResponseEntity.ok(PlanetResponse.from(planet))
     }
 
     @PostMapping("/planet")
