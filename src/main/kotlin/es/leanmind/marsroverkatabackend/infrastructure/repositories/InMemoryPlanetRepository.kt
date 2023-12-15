@@ -6,7 +6,7 @@ import es.leanmind.marsroverkatabackend.domain.repositories.PlanetRepository
 
 @Injectable
 class InMemoryPlanetRepository : PlanetRepository {
-    private val defaultPlanet = Planet(
+    private var defaultPlanet = Planet(
             Size(10, 10),
             listOf(MarsRover(Position(0, 0), North)),
             listOf(Obstacle(Position(4, 4)), Obstacle(Position(2, 2)))
