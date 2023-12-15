@@ -1,5 +1,6 @@
 package es.leanmind.marsroverkatabackend.infrastructure
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -65,7 +66,7 @@ class MarsRoverControllerShould {
 
     @Test
     fun `move the specified Mars Rover according to received command`() {
-        val requestBody = "{\"marsRoverId:\" 1, \"command:\" \"RFF\"}"
+        val requestBody = ObjectMapper().writeValueAsString(MarsRoverCommandDTO(1, "RFF"))
         val expectedResponse = """
         {
             "marsRover": {
