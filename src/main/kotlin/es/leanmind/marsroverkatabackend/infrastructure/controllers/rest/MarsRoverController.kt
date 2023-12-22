@@ -5,6 +5,7 @@ import es.leanmind.marsroverkatabackend.application.usecases.GetCurrentPlanetUse
 import es.leanmind.marsroverkatabackend.application.usecases.MoveMarsRoverUseCase
 import es.leanmind.marsroverkatabackend.domain.model.Command
 import es.leanmind.marsroverkatabackend.infrastructure.controllers.rest.request.MarsRoverCommandRequest
+import es.leanmind.marsroverkatabackend.infrastructure.controllers.rest.responses.MarsRoverResponse
 import es.leanmind.marsroverkatabackend.infrastructure.controllers.rest.responses.PlanetResponse
 import org.springframework.http.HttpStatusCode
 import org.springframework.http.ResponseEntity
@@ -37,6 +38,6 @@ class MarsRoverController(
             @RequestBody marsRoverCommandRequest: MarsRoverCommandRequest
     ): ResponseEntity<Any> {
         val marsRoverAfterProcessedCommand = moveMarsRoverUseCase.execute(marsRoverCommandRequest.marsRoverId, Command.from(marsRoverCommandRequest.command))
-        return ResponseEntity.ok(marsRoverAfterProcessedCommand)
+        return ResponseEntity.ok(MarsRoverResponse.from(marsRoverAfterProcessedCommand))
     }
 }

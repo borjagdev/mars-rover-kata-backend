@@ -2,7 +2,6 @@ package es.leanmind.marsroverkatabackend.infrastructure.controllers.rest
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import es.leanmind.marsroverkatabackend.infrastructure.controllers.rest.request.MarsRoverCommandRequest
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -10,6 +9,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import java.util.*
 
 @WebMvcTest
 class MarsRoverControllerShould {
@@ -35,22 +35,19 @@ class MarsRoverControllerShould {
     }
 
     @Test
-    @Disabled
     fun `move the specified Mars Rover according to received command`() {
         val requestBody = ObjectMapper().writeValueAsString(MarsRoverCommandRequest(1, "RFF"))
         val expectedResponse = """
         {
-            "marsRover": {
-                "position": {
-                    "latitude": 0,
-                    "longitude": 2
-                },
-                "direction": "E"
-            }
+            "position": {
+                "latitude": 0,
+                "longitude": 2
+            },
+            "direction": "E"
         }
         """
 
-        mvc.perform(MockMvcRequestBuilders.put("/mars-rover")
+        mvc.perform(MockMvcRequestBuilders.put("/planet/mars-rover/{marsRoverId}", "${UUID.randomUUID()}")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(requestBody)
