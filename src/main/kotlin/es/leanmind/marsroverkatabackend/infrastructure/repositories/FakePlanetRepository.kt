@@ -5,7 +5,7 @@ import es.leanmind.marsroverkatabackend.domain.model.*
 import es.leanmind.marsroverkatabackend.domain.repositories.PlanetRepository
 
 @Injectable
-class InMemoryPlanetRepository : PlanetRepository {
+class FakePlanetRepository : PlanetRepository {
     private var defaultPlanet = Planet(
             Size(10, 10),
             listOf(MarsRover(Position(0, 0), North)),
