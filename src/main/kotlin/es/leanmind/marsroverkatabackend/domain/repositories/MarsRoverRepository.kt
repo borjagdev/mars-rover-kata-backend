@@ -6,6 +6,6 @@ import es.leanmind.marsroverkatabackend.domain.model.Position
 import java.util.*
 
 interface MarsRoverRepository {
-    fun getBy(id: Int): MarsRover
+    fun getBy(id: UUID): MarsRover
     fun createFrom(position: Position, direction: Direction): UUID
 }

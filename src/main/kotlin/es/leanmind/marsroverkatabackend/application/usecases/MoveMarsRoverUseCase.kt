@@ -10,7 +10,7 @@ import java.util.*
 class MoveMarsRoverUseCase(
         private val marsRoverRepository: MarsRoverRepository
 ) {
-    fun execute(marsRoverId: Int, command: Command): MarsRover {
+    fun execute(marsRoverId: UUID, command: Command): MarsRover {
         return marsRoverRepository.getBy(marsRoverId).process(command)
     }
 }

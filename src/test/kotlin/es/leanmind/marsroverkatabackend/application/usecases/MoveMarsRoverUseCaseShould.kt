@@ -16,7 +16,7 @@ class MoveMarsRoverUseCaseShould {
         val moveMarsRoverUseCase = MoveMarsRoverUseCase(marsRoverRepository)
         val expectedMarsRover = MarsRover(Position(2, 1), East)
 
-        val resultingMarsRover = moveMarsRoverUseCase.execute(1, Command.from("FFRF"))
+        val resultingMarsRover = moveMarsRoverUseCase.execute(UUID.randomUUID(), Command.from("FFRF"))
 
         assertEquals(expectedMarsRover, resultingMarsRover)
     }

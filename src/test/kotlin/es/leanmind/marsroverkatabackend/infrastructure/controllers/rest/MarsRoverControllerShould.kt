@@ -59,7 +59,7 @@ class MarsRoverControllerShould {
 
     @Test
     fun `move the specified Mars Rover according to received command`() {
-        val requestBody = ObjectMapper().writeValueAsString(MarsRoverCommandRequest(1, "RFF"))
+        val requestBody = ObjectMapper().writeValueAsString(MarsRoverCommandRequest("RFF"))
         val expectedResponse = """
         {
             "position": {

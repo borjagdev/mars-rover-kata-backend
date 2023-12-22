@@ -45,8 +45,8 @@ class MarsRoverController(
     fun moveMarsRover(
             @PathVariable marsRoverId: UUID,
             @RequestBody marsRoverCommandRequest: MarsRoverCommandRequest
-    ): ResponseEntity<Any> {
-        val marsRoverAfterProcessedCommand = moveMarsRoverUseCase.execute(marsRoverCommandRequest.marsRoverId, Command.from(marsRoverCommandRequest.command))
+    ): ResponseEntity<MarsRoverResponse> {
+        val marsRoverAfterProcessedCommand = moveMarsRoverUseCase.execute(marsRoverId, Command.from(marsRoverCommandRequest.command))
         return ResponseEntity.ok(MarsRoverResponse.from(marsRoverAfterProcessedCommand))
     }
 }
