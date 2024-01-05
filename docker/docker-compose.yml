@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  app:
+    container_name: mars-rover-backend
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    image: mars-rover-backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      MYSQL_DATABASE: mars-rover
+      MYSQL_HOST: mars-rover-backend-mysql
+      MYSQL_PORT: 3306
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: 1234
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  database:
+    container_name: mars-rover-backend-mysql
+    image: mysql:8.2.0
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: mars-rover
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: 1234
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 3

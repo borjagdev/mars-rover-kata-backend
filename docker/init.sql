@@ -1,0 +1,31 @@
+CREATE TABLE mars_rover
+(
+    id         VARCHAR(36) PRIMARY KEY,
+    latitude   INT NOT NULL,
+    longitude  INT NOT NULL,
+    direction  VARCHAR(255) NOT NULL,
+    planet_id  VARCHAR(36) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT FK_marsrover_planet FOREIGN KEY (planet_id) REFERENCES planet(id)
+);
+
+CREATE TABLE obstacle
+(
+    id         VARCHAR(36) PRIMARY KEY,
+    latitude   INT NOT NULL,
+    longitude  INT NOT NULL,
+    planet_id  VARCHAR(36) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT FK_obstacle_planet FOREIGN KEY (planet_id) REFERENCES planet(id)
+);
+
+CREATE TABLE planet
+(
+    id         VARCHAR(36) PRIMARY KEY,
+    height     INT NOT NULL,
+    width      INT NOT NULL,
+    created_at DATETIME  DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);

@@ -21,6 +21,8 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation("org.springframework.data:spring-data-jdbc:3.2.1")
+	runtimeOnly('com.mysql:mysql-connector-j:8.2.0')
 	implementation 'org.jetbrains.kotlin:kotlin-reflect'
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.1")
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
