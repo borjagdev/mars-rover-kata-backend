@@ -11,6 +11,8 @@ class MoveMarsRoverUseCase(
         private val marsRoverRepository: MarsRoverRepository
 ) {
     fun execute(marsRoverId: UUID, command: Command): MarsRover {
-        return marsRoverRepository.getBy(marsRoverId).process(command)
+        val updatedMarsRover = marsRoverRepository.getBy(marsRoverId).process(command)
+        marsRoverRepository.save(marsRoverId, updatedMarsRover)
+        return updatedMarsRover
     }
 }

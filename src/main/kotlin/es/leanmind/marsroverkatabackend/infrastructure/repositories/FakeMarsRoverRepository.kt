@@ -10,8 +10,8 @@ import java.util.*
 
 @Injectable
 class FakeMarsRoverRepository : MarsRoverRepository {
-    private val defaultMarsRoverId: UUID = UUID.fromString("52325ef1-9ef4-4349-9259-815bc4c9e409")
-    private val defaultMarsRover = MarsRover(Position(0, 0), North)
+    private var defaultMarsRoverId: UUID = UUID.fromString("52325ef1-9ef4-4349-9259-815bc4c9e409")
+    private var defaultMarsRover = MarsRover(Position(0, 0), North)
 
     override fun getBy(id: UUID): MarsRover {
         return defaultMarsRover
@@ -19,6 +19,10 @@ class FakeMarsRoverRepository : MarsRoverRepository {
 
     override fun createFrom(position: Position, direction: Direction): UUID {
         return defaultMarsRoverId
+    }
+
+    override fun save(marsRoverId: UUID, updatedMarsRover: MarsRover) {
+        defaultMarsRover = updatedMarsRover
     }
 
     fun defaultId(): UUID {

@@ -1,12 +1,18 @@
 package es.leanmind.marsroverkatabackend.infrastructure.controllers.rest
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import es.leanmind.marsroverkatabackend.domain.model.East
+import es.leanmind.marsroverkatabackend.domain.model.MarsRover
+import es.leanmind.marsroverkatabackend.domain.model.Position
+import es.leanmind.marsroverkatabackend.domain.repositories.MarsRoverRepository
 import es.leanmind.marsroverkatabackend.infrastructure.controllers.rest.request.MarsRoverCommandRequest
 import es.leanmind.marsroverkatabackend.infrastructure.controllers.rest.request.MarsRoverLandingRequest
 import es.leanmind.marsroverkatabackend.infrastructure.controllers.rest.request.PositionRequest
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.test.mock.mockito.SpyBean
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
@@ -16,6 +22,8 @@ import java.util.*
 
 @WebMvcTest
 class MarsRoverControllerShould {
+    @SpyBean
+    lateinit var marsRoverRepository: MarsRoverRepository
     @Autowired
     lateinit var objectMapper: ObjectMapper
     @Autowired
@@ -69,17 +77,19 @@ class MarsRoverControllerShould {
     @Test
     fun `move the specified Mars Rover according to received command`() {
         val requestBody = objectMapper.writeValueAsString(MarsRoverCommandRequest("RFF"))
+        val roverId = UUID.randomUUID()
+        val expectedMarsRover = MarsRover(Position(0, 2), East)
         val expectedResponse = """
         {
             "position": {
-                "latitude": 0,
-                "longitude": 2
+                "latitude": ${expectedMarsRover.position.latitude},
+                "longitude": ${expectedMarsRover.position.longitude}
             },
             "direction": "E"
         }
         """
 
-        mvc.put("/planet/mars-rover/${UUID.randomUUID()}") {
+        mvc.put("/planet/mars-rover/$roverId") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
             content = requestBody
@@ -87,6 +97,7 @@ class MarsRoverControllerShould {
             status { isOk() }
             content { json(expectedResponse) }
         }
+        verify(marsRoverRepository, times(1)).save(roverId, expectedMarsRover)
     }
 
     private val expectedPlanetResponse = """

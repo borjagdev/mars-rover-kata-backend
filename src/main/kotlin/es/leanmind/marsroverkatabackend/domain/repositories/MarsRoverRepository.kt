@@ -8,4 +8,5 @@ import java.util.*
 interface MarsRoverRepository {
     fun getBy(id: UUID): MarsRover
     fun createFrom(position: Position, direction: Direction): UUID
+    fun save(marsRoverId: UUID, updatedMarsRover: MarsRover)
 }
