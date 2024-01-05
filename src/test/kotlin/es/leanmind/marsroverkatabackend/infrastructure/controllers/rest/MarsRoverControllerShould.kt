@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.get
+import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.put
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import java.util.*
 
 @WebMvcTest
@@ -23,20 +23,24 @@ class MarsRoverControllerShould {
 
     @Test
     fun `get the current state of a planet`() {
-        mvc.perform(MockMvcRequestBuilders.get("/planet")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-        ).andExpect(MockMvcResultMatchers.status().isOk)
-        .andExpect(MockMvcResultMatchers.content().json(expectedPlanetResponse))
+        mvc.get("/planet") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+        }.andExpect {
+            status { isOk() }
+            content { json(expectedPlanetResponse) }
+        }
     }
 
     @Test
     fun `create a planet`() {
-        mvc.perform(MockMvcRequestBuilders.post("/planet")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-        ).andExpect(MockMvcResultMatchers.status().isCreated)
-        .andExpect(MockMvcResultMatchers.content().json(expectedPlanetResponse))
+        mvc.post("/planet") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+        }.andExpect {
+            status { isCreated() }
+            content { json(expectedPlanetResponse) }
+        }
     }
 
     @Test
@@ -52,12 +56,14 @@ class MarsRoverControllerShould {
         }
         """
 
-        mvc.perform(MockMvcRequestBuilders.post("/planet/mars-rover")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(requestBody)
-        ).andExpect(MockMvcResultMatchers.status().isOk)
-                .andExpect(MockMvcResultMatchers.content().json(expectedResponse))
+        mvc.post("/planet/mars-rover") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = requestBody
+        }.andExpect {
+            status { isOk() }
+            content { json(expectedResponse) }
+        }
     }
 
     @Test
