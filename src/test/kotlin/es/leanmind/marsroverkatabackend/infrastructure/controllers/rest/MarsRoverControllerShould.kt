@@ -9,12 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.put
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import java.util.*
 
 @WebMvcTest
 class MarsRoverControllerShould {
+    @Autowired
+    lateinit var objectMapper: ObjectMapper
     @Autowired
     lateinit var mvc: MockMvc
 
@@ -38,7 +41,7 @@ class MarsRoverControllerShould {
 
     @Test
     fun `make a Mars Rover land on the specified position and direction`() {
-        val requestBody = ObjectMapper().writeValueAsString(
+        val requestBody = objectMapper.writeValueAsString(
                 MarsRoverLandingRequest(
                         PositionRequest(0, 0), "N"
                 )
@@ -59,7 +62,7 @@ class MarsRoverControllerShould {
 
     @Test
     fun `move the specified Mars Rover according to received command`() {
-        val requestBody = ObjectMapper().writeValueAsString(MarsRoverCommandRequest("RFF"))
+        val requestBody = objectMapper.writeValueAsString(MarsRoverCommandRequest("RFF"))
         val expectedResponse = """
         {
             "position": {
@@ -70,12 +73,14 @@ class MarsRoverControllerShould {
         }
         """
 
-        mvc.perform(MockMvcRequestBuilders.put("/planet/mars-rover/{marsRoverId}", "${UUID.randomUUID()}")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(requestBody)
-        ).andExpect(MockMvcResultMatchers.status().isOk)
-        .andExpect(MockMvcResultMatchers.content().json(expectedResponse))
+        mvc.put("/planet/mars-rover/${UUID.randomUUID()}") {
+            contentType = MediaType.APPLICATION_JSON
+            accept = MediaType.APPLICATION_JSON
+            content = requestBody
+        }.andExpect {
+            status { isOk() }
+            content { json(expectedResponse) }
+        }
     }
 
     private val expectedPlanetResponse = """
