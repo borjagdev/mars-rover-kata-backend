@@ -13,8 +13,8 @@ import org.springframework.context.annotation.FilterType
 			classes = [Injectable::class]
 	)
 ])
-class MarsRoverKataBackendApplication {
-	fun main(args: Array<String>) {
-		runApplication<MarsRoverKataBackendApplication>(*args)
-	}
+class MarsRoverKataBackendApplication
+
+fun main(args: Array<String>) {
+	runApplication<MarsRoverKataBackendApplication>(*args)
 }
